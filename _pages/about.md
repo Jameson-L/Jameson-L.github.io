@@ -8,4 +8,6 @@ redirect_from:
   - /about.html
 ---
 
-Hi! I'm Jameson Liu, an undergraduate at the University of California, Berkeley.
+Hi! I'm Jameson Liu, an undergraduate at the University of California, Berkeley, studying Electrical Engineering and Computer Science.
+
+Here is my [resume](https:://jameson-l.github.io/files/resume/).
