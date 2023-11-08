@@ -81,7 +81,7 @@ analytics:
 # Site Author
 author:
   name             : "Jameson Liu"
-  avatar           : "/images/profile.png"
+  avatar           : "profile.png"
   bio              : "Undergraduate at UC Berkeley"
   location         : "Berkeley, California"
   employer         :
