@@ -1,0 +1,79 @@
+:root {
+    --font-family: Arial, sans-serif;
+
+    --background-color: #fafafa;
+    --text-color: #333;
+    --subtext-color: #555;
+
+    --link-color: #0077cc;
+    --link-hover-bg: #0077cc;
+    --link-hover-text: #fff;
+
+    --border-color: #ccc;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 40px;
+    background: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+h2 {
+    margin: 0.3rem 0 0;
+    font-size: 1.2rem;
+    color: var(--subtext-color);
+    font-weight: normal;
+}
+
+h3 {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
+    color: var(--link-color);
+    border: 1px solid var(--link-color);
+    border-radius: 4px;
+}
+
+a:hover {
+    background: var(--link-hover-bg);
+    color: var(--link-hover-text);
+}
+
+.img-pair {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.img-item {
+    flex: 1;
+    text-align: center;
+}
+
+.img-item img {
+    max-width: 70%;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto 0.5rem;
+}
+
+.img-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--subtext-color);
+}
