@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 1</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <h1>Project 1: Images of the Russian Empire -- Colorizing the Prokudin-Gorskii Photo Collection</h1>
+    <h2>Jameson Liu</h2>
+
+    <h3>Overview</h3>
+    <p>
+        In this project, I worked on colorizing the glass plate negatives from the
+        Prokudin-Gorskii collection. Each image is composed of three exposures taken
+        through blue, green, and red filters. By stacking these three grayscale images
+        into RGB channels, we can reconstruct the original color photographs.
+        The challenge is that the three exposures are not perfectly aligned, so I
+        implemented algorithms to align them automatically.
+    </p>
+    <p>
+        I implemented two alignment methods: a naive exhaustive search and a pyramid
+        approach that uses recursion to speed up the search. The pyramid method
+        is more efficient and produces better results, especially for larger images.
+    </p>
+
+    <h3>Metrics</h3>
+    <p>
+        To evaluate any given alignment of two channels, I experimented with two metrics:
+    </p>
+    <ul>
+        <li>
+            <b>Euclidean Distance:</b>
+            Computed as the square root of the sum of squared differences. A smaller Euclidean distance indicates a better match.
+            This method is simple and efficient, but it can be sensitive to
+            differences in brightness or contrast between channels.
+        </li>
+        <li>
+            <b>Normalized Cross-Correlation:</b>
+            Measures similarity by computing the dot product between normalized images.
+            High NCC indicates a better match. NCC is more robust to brightness or
+            exposure differences, making it useful when Euclidean distance fails.
+        </li>
+    </ul>
+    <p>
+        In practice, both metrics gave similar results for most images, but NCC
+        tended to perform better on cases with lighting variation, so I used NCC to align all images.
+        To avoid edge effects, I made sure to crop the borders of the images before computing the metrics.
+    </p>
+
+    <h3>Naive Alignment</h3>
+    <p>
+        The naive alignment method exhaustively searches over a fixed window of possible
+        displacements (e.g. ±15 pixels). For each candidate displacement, the chosen
+        metric is computed between the overlapping regions of the red and green 
+        channels and the blue channel. The displacement that
+        optimizes the metric is selected. This runs fine for low-resolution images but is too slow for higher-resolution images which potentially require a large search window.
+    </p>
+
+    <h3>Pyamid Alignment</h3>
+    <p>
+        For larger images, I implemented a coarse-to-fine pyramid alignment strategy.
+        The image is recursively downsampled by a factor of 2 until small enough for
+        naive alignment to work quickly. Then, the computed shifts (over a relatively larger search window) are scaled back up
+        and refined at higher resolutions (over a relatively smaller search window). This enables handling large misalignments
+        efficiently.
+    </p>
+    <p>
+        To clarify why this is faster, suppose we can only efficiently search a window with dimension 3. 
+        If we downsample the image by a factor of 2 and reuse a window of size 3, we are effectively doubling our search size (at the cost of coarser alignment) since the size of the image is smaller.
+        Scaling this back up to the original image size, we are effectively searching a window of size 6, which can be further refined.
+    </p>
+
+    <h3>Examples</h3>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_cathedral.jpg">
+            <p><em>Cathedral</em></p>
+            <p class="offset-text">R offset: (12, 3)</p>
+            <p class="offset-text">G offset: (5, 2)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_monastery.jpg">
+            <p><em>Monastery</em></p>
+            <p class="offset-text">R offset: (3, 2)</p>
+            <p class="offset-text">G offset: (-3, 2)</p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_tobolsk.jpg">
+            <p><em>Tobolsk</em></p>
+            <p class="offset-text">R offset: (6, 3)</p>
+            <p class="offset-text">G offset: (3, 2)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_church.jpg">
+            <p><em>Church</em></p>
+            <p class="offset-text">R offset: (52, -11)</p>
+            <p class="offset-text">G offset: (23, -4)</p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_emir.jpg">
+            <p><em>Emir</em></p>
+            <p class="offset-text">R offset: (109, 19)</p>
+            <p class="offset-text">G offset: (39, 15)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_harvesters.jpg">
+            <p><em>Harvesters</em></p>
+            <p class="offset-text">R offset: (121, 7)</p>
+            <p class="offset-text">G offset: (59, 10)</p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_icon.jpg">
+            <p><em>Icon</em></p>
+            <p class="offset-text">R offset: (90, 22)</p>
+            <p class="offset-text">G offset: (41, 16)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_italil.jpg">
+            <p><em>Italil</em></p>
+            <p class="offset-text">R offset: (77, 34)</p>
+            <p class="offset-text">G offset: (38, 18)</p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_lastochikino.jpg">
+            <p><em>Lastochikino</em></p>
+            <p class="offset-text">R offset: (73, -7)</p>
+            <p class="offset-text">G offset: (-3, -2)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_lugano.jpg">
+            <p><em>Lugano</em></p>
+            <p class="offset-text">R offset: (92, -28)</p>
+            <p class="offset-text">G offset: (37, -11)</p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_melons.jpg">
+            <p><em>Melons</em></p>
+            <p class="offset-text">R offset: (173, 7)</p>
+            <p class="offset-text">G offset: (83, 4)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_self_portrait.jpg">
+            <p><em>Self Portrait</em></p>
+            <p class="offset-text">R offset: (163, -3)</p>
+            <p class="offset-text">G offset: (75, 3)</p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_siren.jpg">
+            <p><em>Siren</em></p>
+            <p class="offset-text">R offset: (99, -21)</p>
+            <p class="offset-text">G offset: (48, -7)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_three_generations.jpg">
+            <p><em>Three Generations</em></p>
+            <p class="offset-text">R offset: (110, 7)</p>
+            <p class="offset-text">G offset: (52, 5)</p>
+        </div>
+    </div>
+
+    <h3>Additional Examples</h3>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/out_rainbow.jpg">
+            <p><em>Rainbow</em></p>
+            <p class="offset-text">R offset: (83, -5)</p>
+            <p class="offset-text">G offset: (65, -5)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_waterfall.jpg">
+            <p><em>Waterfall</em></p>
+            <p class="offset-text">R offset: (71, -21)</p>
+            <p class="offset-text">G offset: (13, -10)</p>
+        </div>
+        <div class="img-item">
+            <img src="assets/out_sunset.jpg">
+            <p><em>Sunset</em></p>
+            <p class="offset-text">R offset: (93, -23)</p>
+            <p class="offset-text">G offset: (37, -11)</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -8,8 +8,6 @@
     --link-color: #0077cc;
     --link-hover-bg: #0077cc;
     --link-hover-text: #fff;
-
-    --border-color: #ccc;
 }
 
 body {
@@ -53,7 +51,7 @@ a:hover {
     color: var(--link-hover-text);
 }
 
-.img-pair {
+.img-group {
     display: flex;
     gap: 1rem;
     margin: 1rem 0;
@@ -66,7 +64,6 @@ a:hover {
 
 .img-item img {
     max-width: 70%;
-    border: 1px solid var(--border-color);
     border-radius: 4px;
     display: block;
     margin: 0 auto 0.5rem;
@@ -75,5 +72,10 @@ a:hover {
 .img-item p {
     margin: 0;
     font-size: 0.9rem;
+    color: var(--subtext-color);
+}
+
+.img-item .offset-text {
+    font-size: 0.6rem;
     color: var(--subtext-color);
 }
