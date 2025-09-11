@@ -63,6 +63,7 @@ a:hover {
 }
 
 .img-item img {
+    height: 70%;
     max-width: 70%;
     border-radius: 4px;
     display: block;
