@@ -37,7 +37,7 @@
         <li>
             <b>Normalized Cross-Correlation:</b>
             Measures similarity by computing the dot product between normalized images.
-            High NCC indicates a better match. NCC is more robust to brightness or
+            A higher NCC indicates a better match. NCC is more robust to brightness or
             exposure differences, making it useful when Euclidean distance fails.
         </li>
     </ul>
@@ -53,7 +53,7 @@
         displacements (e.g. ±15 pixels). For each candidate displacement, the chosen
         metric is computed between the overlapping regions of the red and green 
         channels and the blue channel. The displacement that
-        optimizes the metric is selected. This runs fine for low-resolution images but is too slow for higher-resolution images which potentially require a large search window.
+        optimizes the metric is selected. This runs fine for low-resolution images but is too slow for higher-resolution images which potentially require a larger search window.
     </p>
 
     <h3>Pyamid Alignment</h3>
@@ -66,8 +66,8 @@
     </p>
     <p>
         To clarify why this is faster, suppose we can only efficiently search a window with dimension 3. 
-        If we downsample the image by a factor of 2 and reuse a window of size 3, we are effectively doubling our search size (at the cost of coarser alignment) since the size of the image is smaller.
-        Scaling this back up to the original image size, we are effectively searching a window of size 6, which can be further refined.
+        If we downsample the image by a factor of 2 and reuse a window of size 3, we are effectively doubling our search size (albeit with coarser alignment), since the image is now smaller relative to the same window.
+        Scaling this back up to the original image size, we are effectively searching a window of size 6, which can be further refined. Therefore, we can search a large window efficiently.
     </p>
 
     <h3>Examples</h3>
