@@ -27,18 +27,26 @@
     <p>
         To evaluate any given alignment of two channels, I experimented with two metrics:
     </p>
+    <!-- 
+    $$\|\text{img1} - \text{img2}\|_F$$ 
+    $$\frac{\text{img1}}{\|\text{img1}\|_F} \cdot \frac{\text{img2}}{\|\text{img2}\|_F}$$
+    -->
     <ul>
         <li>
             <b>Euclidean Distance:</b>
             Computed as the square root of the sum of squared differences. A smaller Euclidean distance indicates a better match.
             This method is simple and efficient, but it can be sensitive to
             differences in brightness or contrast between channels.
+
+            <img src="assets/euclidean.png"style="max-width: 200px; display: block; margin-top: 10px;">
         </li>
         <li>
             <b>Normalized Cross-Correlation:</b>
             Measures similarity by computing the dot product between normalized images.
             A higher NCC indicates a better match. NCC is more robust to brightness or
             exposure differences, making it useful when Euclidean distance fails.
+
+            <img src="assets/ncc.png" style="max-width: 200px; display: block; margin-top: 10px;">
         </li>
     </ul>
     <p>
@@ -53,7 +61,7 @@
         displacements (e.g. ±15 pixels). For each candidate displacement, the chosen
         metric is computed between the overlapping regions of the red and green 
         channels and the blue channel. The displacement that
-        optimizes the metric is selected. This runs fine for low-resolution images but is too slow for higher-resolution images which potentially require a larger search window.
+        optimizes the metric is selected. This runs fine for low-resolution images but is too slow for higher-resolution images which have more pixels and potentially require a larger search window.
     </p>
 
     <h3>Pyamid Alignment</h3>
@@ -61,8 +69,8 @@
         For larger images, I implemented a coarse-to-fine pyramid alignment strategy.
         The image is recursively downsampled by a factor of 2 until small enough for
         naive alignment to work quickly. Then, the computed shifts (over a relatively larger search window) are scaled back up
-        and refined at higher resolutions (over a relatively smaller search window). This enables handling large misalignments
-        efficiently.
+        and refined at higher resolutions; the refinement is done using the same displacement method as before, but the displacement is centered around the newly-obtained shifts and uses a relatively smaller window size.
+        This enables handling large misalignments efficiently.
     </p>
     <p>
         To clarify why this is faster, suppose we can only efficiently search a window with dimension 3. 
@@ -72,9 +80,10 @@
 
     <h3>Issues Encountered</h3>
     <p>
-        I noticed that for some issues, such as emir, the alignment was slightly off. I hypothesized that this was due to large edge effects, so I decided to tune the cropping logic. 
+        I noticed that for some images, such as "Emir", the alignment was slightly off. I hypothesized that this was due to large edge effects, so I decided to tune the cropping logic. 
         Previously, I was cropping off a hardcoded portion of the image off, but I realized this would be problematic in the pyramid recursion due to shrinking image sizes.
         Therefore, I changed the cropping logic to crop off a percentage of the image (5% of the longer dimension from each side), resulting in much better performance. 
+        I also made sure the minimum cropping was the size of the search window to avoid pixel wrapping issues that came with my implementation of displacements.
     </p>
 
     <h3>Examples</h3>
