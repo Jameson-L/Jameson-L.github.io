@@ -70,6 +70,13 @@
         Scaling this back up to the original image size, we are effectively searching a window of size 6, which can be further refined. Therefore, we can search a large window efficiently.
     </p>
 
+    <h3>Issues Encountered</h3>
+    <p>
+        I noticed that for some issues, such as emir, the alignment was slightly off. I hypothesized that this was due to large edge effects, so I decided to tune the cropping logic. 
+        Previously, I was cropping off a hardcoded portion of the image off, but I realized this would be problematic in the pyramid recursion due to shrinking image sizes.
+        Therefore, I changed the cropping logic to crop off a percentage of the image (5% of the longer dimension from each side), resulting in much better performance. 
+    </p>
+
     <h3>Examples</h3>
     <div class="img-group">
         <div class="img-item">
@@ -95,78 +102,78 @@
         <div class="img-item">
             <img src="assets/out_church.jpg">
             <p><em>Church</em></p>
-            <p class="offset-text">R offset: (52, -11)</p>
-            <p class="offset-text">G offset: (23, -4)</p>
+            <p class="offset-text">R offset: (58, -5)</p>
+            <p class="offset-text">G offset: (25, 3)</p>
         </div>
     </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/out_emir.jpg">
             <p><em>Emir</em></p>
-            <p class="offset-text">R offset: (109, 19)</p>
-            <p class="offset-text">G offset: (39, 15)</p>
+            <p class="offset-text">R offset: (103, 43)</p>
+            <p class="offset-text">G offset: (49, 24)</p>
         </div>
         <div class="img-item">
             <img src="assets/out_harvesters.jpg">
             <p><em>Harvesters</em></p>
-            <p class="offset-text">R offset: (121, 7)</p>
-            <p class="offset-text">G offset: (59, 10)</p>
+            <p class="offset-text">R offset: (124, 14)</p>
+            <p class="offset-text">G offset: (60, 16)</p>
         </div>
     </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/out_icon.jpg">
             <p><em>Icon</em></p>
-            <p class="offset-text">R offset: (90, 22)</p>
-            <p class="offset-text">G offset: (41, 16)</p>
+            <p class="offset-text">R offset: (89, 23)</p>
+            <p class="offset-text">G offset: (40, 17)</p>
         </div>
         <div class="img-item">
             <img src="assets/out_italil.jpg">
             <p><em>Italil</em></p>
-            <p class="offset-text">R offset: (77, 34)</p>
-            <p class="offset-text">G offset: (38, 18)</p>
+            <p class="offset-text">R offset: (77, 35)</p>
+            <p class="offset-text">G offset: (38, 21)</p>
         </div>
     </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/out_lastochikino.jpg">
             <p><em>Lastochikino</em></p>
-            <p class="offset-text">R offset: (73, -7)</p>
+            <p class="offset-text">R offset: (76, -9)</p>
             <p class="offset-text">G offset: (-3, -2)</p>
         </div>
         <div class="img-item">
             <img src="assets/out_lugano.jpg">
             <p><em>Lugano</em></p>
             <p class="offset-text">R offset: (92, -28)</p>
-            <p class="offset-text">G offset: (37, -11)</p>
+            <p class="offset-text">G offset: (41, -17)</p>
         </div>
     </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/out_melons.jpg">
             <p><em>Melons</em></p>
-            <p class="offset-text">R offset: (173, 7)</p>
-            <p class="offset-text">G offset: (83, 4)</p>
+            <p class="offset-text">R offset: (179, 12)</p>
+            <p class="offset-text">G offset: (82, 9)</p>
         </div>
         <div class="img-item">
             <img src="assets/out_self_portrait.jpg">
             <p><em>Self Portrait</em></p>
-            <p class="offset-text">R offset: (163, -3)</p>
-            <p class="offset-text">G offset: (75, 3)</p>
+            <p class="offset-text">R offset: (176, 34)</p>
+            <p class="offset-text">G offset: (79, 29)</p>
         </div>
     </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/out_siren.jpg">
             <p><em>Siren</em></p>
-            <p class="offset-text">R offset: (99, -21)</p>
-            <p class="offset-text">G offset: (48, -7)</p>
+            <p class="offset-text">R offset: (96, -25)</p>
+            <p class="offset-text">G offset: (49, -7)</p>
         </div>
         <div class="img-item">
             <img src="assets/out_three_generations.jpg">
             <p><em>Three Generations</em></p>
-            <p class="offset-text">R offset: (110, 7)</p>
-            <p class="offset-text">G offset: (52, 5)</p>
+            <p class="offset-text">R offset: (112, 10)</p>
+            <p class="offset-text">G offset: (53, 13)</p>
         </div>
     </div>
 
@@ -175,20 +182,20 @@
         <div class="img-item">
             <img src="assets/out_rainbow.jpg">
             <p><em>Rainbow</em></p>
-            <p class="offset-text">R offset: (83, -5)</p>
-            <p class="offset-text">G offset: (65, -5)</p>
+            <p class="offset-text">R offset: (106, 17)</p>
+            <p class="offset-text">G offset: (50, 13)</p>
         </div>
         <div class="img-item">
             <img src="assets/out_waterfall.jpg">
             <p><em>Waterfall</em></p>
-            <p class="offset-text">R offset: (71, -21)</p>
-            <p class="offset-text">G offset: (13, -10)</p>
+            <p class="offset-text">R offset: (80, -4)</p>
+            <p class="offset-text">G offset: (13, -2)</p>
         </div>
         <div class="img-item">
-            <img src="assets/out_sunset.jpg">
-            <p><em>Sunset</em></p>
-            <p class="offset-text">R offset: (93, -23)</p>
-            <p class="offset-text">G offset: (37, -11)</p>
+            <img src="assets/out_monument.jpg">
+            <p><em>Monument</em></p>
+            <p class="offset-text">R offset: (85, 49)</p>
+            <p class="offset-text">G offset: (14, 26)</p>
         </div>
     </div>
 </body>
