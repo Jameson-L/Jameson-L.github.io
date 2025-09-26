@@ -9,41 +9,89 @@
     <h2>Jameson Liu</h2>
 
     <h3>Overview</h3>
-    
+    <p>
+        In this project, I explored 2D convolutions, filtering, frequency-domain image processing, 
+        and multi-resolution blending. 
+    </p>
+
     <h3>Part 1: Fun with Filters</h3>
 
     <h4>Part 1.1: Convolutions from Scratch!</h4>
+    <p>
+        I implemented 2D convolutions using both four nested loops and two nested loops, handling image padding with zero-fill values to avoid boundary issues.
+        I compared my implementations to SciPy's implementation in terms of runtime. 
+        The results matched well, and using fewer loops drastically improved computation time.
+        <br><br>
+        Four Loop Time: 7.978 seconds
+        <br>
+        Two Loop Time: 0.903 seconds
+        <br>
+        SciPy Time: 0.034 seconds
+    </p>
     <div class="img-item"><img src="assets/selfie.jpg"></div>
 
     <h4>Part 1.2: Finite Difference Operator</h4>
+    <p>
+        Using simple finite difference kernels, I computed the partial derivatives of a cameraman image in the x and y directions. 
+        From these derivatives, I calculated the gradient magnitude and binarized it to produce an edge map (with a threshold of 40). 
+        Choosing the right threshold was important to balance noise suppression and edge detection, 
+        and I picked it by adjusting it until the key features (person, camera, buildings, etc.) were visible, even if some of the grass was being included. If it was too low, too much noise appeared; if too high, important edges were lost.
+    </p>
     <div class="img-item"><img src="assets/finite_difference.jpg"></div>
     <div class="img-item"><img src="assets/kernels.jpg"></div>
     <div class="img-item"><img src="assets/unsmoothed.jpg"></div>
+    <div class="img-item"><img src="assets/unsmoothed_edges.jpg"></div>
 
     <h4>Part 1.3: Derivative of Gaussian (DoG) Filter</h4>
+    <p>
+        To reduce noise, I first convolved the image with a Gaussian filter, effectively blurring it, before computing finite differences. 
+        This greatly improved results, allowing me to pick a lower threshold of 20 to capture more detail without introducing noise and minor edges (such as grass).
+        Since convolving is associative, I could also combine the Gaussian and derivative kernels into a single DoG filter.
+        I constructed these filters and applied them, verifying that the results matched the previous method. 
+    </p>
     <div class="img-item"><img src="assets/smoothed.jpg"></div>
+    <div class="img-item"><img src="assets/smoothed_edges.jpg"></div>
 
     <h3>Part 2: Fun with Frequencies!</h3>
 
     <h4>Part 2.1: Image "Sharpening"</h4>
+    <p>
+        I implemented the unsharp mask filter by subtracting a blurred version of an image from the original to extract high-frequency components. 
+        Adding these components back to the original image had the effect of enhancing sharpness (although this is more of an illusion, since there is no new information/resolution added). 
+        Experiments on images like the Taj Mahal and Campanile demonstrated varying levels of sharpening and the effect of sharpening on previously blurred images.
+    </p>
     <div class="img-item"><img src="assets/taj.jpg"></div>
     <div class="img-item"><img src="assets/campanile.jpg"></div>
     <div class="img-item"><img src="assets/nyc.jpg"></div>
 
     <h4>Part 2.2: Hybrid Images</h4>
+    <p>
+        Using pairs of images, I created hybrid images by combining (averaging) the low-frequency part of one image with the high-frequency part of another, using the same subtraction method as in part 2.1. 
+        I successfully produced hybrid images for Derek + Nutmeg, Beethoven + Van Gogh, and Smile + Frown. 
+        For the Smile + Frown example, I also visualized the Fourier transforms at each step, showing how frequency components combined to produce the perceptual effect.
+        For each pair of images, I experimented with different cutoff frequencies to find the best balance between the two images; 
+        for example, I noticed that the Derek image was dominating the cat image, so I had to increase the blurring effect on Derek to let more of Nutmeg's features show through.
+    </p>
     <div class="img-item"><img src="assets/nutmeg_derek.jpg"></div>
     <div class="img-item"><img src="assets/beethoven_van_gogh.jpg"></div>
     <div class="img-item"><img src="assets/smile_frown.jpg"></div>
     <div class="img-item"><img src="assets/fft.jpg"></div>
 
     <h4>Parts 2.3 &amp; 2.4: Gaussian/Laplacian Stacks &amp; Multiresolution Blending (AKA the Oraple!)</h4>
+    <p>
+        I implemented Gaussian and Laplacian stacks to represent images at multiple levels of smoothness and detail. 
+        Gaussian stacks were created by incrementally blurring the image, while Laplacian stacks were formed by subtracting adjacent levels of the Gaussian stack to isolate frequency bands.
+        Laplacian stacks were computed for each pair of images, a Gaussian stack was computed for the blending mask, and these were used to perform multiresolution blending by combining corresponding levels of the Laplacian stacks weighted by the Gaussian mask levels.
+        This technique allowed me to seamlessly blend pairs of images, such as Apple + Orange, Night + Sunset, and Potato + Cat. 
+        I was also able to produce smooth transitions between images even with irregular masks (Potato + Cat).
+    </p>
     <div class="img-item"><img src="assets/apple_stacks.jpg"></div>
     <div class="img-item"><img src="assets/orange_stacks.jpg"></div>
-    <div class="img-item"><img src="assets/apple_orange_fig.jpg"></div>
     <div class="img-item"><img src="assets/apple_orange.jpg"></div>
-    <div class="img-item"><img src="assets/night_sunset_fig.jpg"></div>
+    <div class="img-item"><img src="assets/apple_orange_fig.jpg"></div>
     <div class="img-item"><img src="assets/night_sunset.jpg"></div>
-    <div class="img-item"><img src="assets/potato_cat_fig.jpg"></div>
+    <div class="img-item"><img src="assets/night_sunset_fig.jpg"></div>
     <div class="img-item"><img src="assets/potato_cat.jpg"></div>
+    <div class="img-item"><img src="assets/potato_cat_fig.jpg"></div>
 </body>
 </html>
