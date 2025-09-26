@@ -28,7 +28,10 @@
         <br>
         SciPy Time: 0.034 seconds
     </p>
-    <div class="img-item"><img src="assets/selfie.jpg"></div>
+    <div class="img-item">
+        <img src="assets/selfie.jpg">
+        <p>Selfie convolved with a 9x9 Gaussian filter</p>
+    </div>
 
     <h4>Part 1.2: Finite Difference Operator</h4>
     <p>
@@ -37,10 +40,20 @@
         Choosing the right threshold was important to balance noise suppression and edge detection, 
         and I picked it by adjusting it until the key features (person, camera, buildings, etc.) were visible, even if some of the grass was being included. If it was too low, too much noise appeared; if too high, important edges were lost.
     </p>
-    <div class="img-item"><img src="assets/finite_difference.jpg"></div>
-    <div class="img-item"><img src="assets/kernels.jpg"></div>
-    <div class="img-item"><img src="assets/unsmoothed.jpg"></div>
-    <div class="img-item"><img src="assets/unsmoothed_edges.jpg"></div>
+    <div class="img-item">
+        <img src="assets/finite_difference.jpg">
+        <p>Finite Difference Kernels</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/unsmoothed.jpg">
+        <p>Cameraman Derivatives</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/unsmoothed_edges.jpg">
+        <p>Cameraman Edges (Threshold = 40)</p>
+    </div>
 
     <h4>Part 1.3: Derivative of Gaussian (DoG) Filter</h4>
     <p>
@@ -49,49 +62,119 @@
         Since convolving is associative, I could also combine the Gaussian and derivative kernels into a single DoG filter.
         I constructed these filters and applied them, verifying that the results matched the previous method. 
     </p>
-    <div class="img-item"><img src="assets/smoothed.jpg"></div>
-    <div class="img-item"><img src="assets/smoothed_edges.jpg"></div>
+    <div class="img-item">
+        <img src="assets/kernels.jpg">
+        <p>Gaussian and DoG Kernels</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/smoothed.jpg">
+        <p>Cameraman Derivatives and Edges (Threshold = 20) (After Gaussian Smoothing)</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/dog.jpg">
+        <p>Cameraman Derivatives and Edges (Threshold = 20) (DoG)</p>
+    </div>
 
     <h3>Part 2: Fun with Frequencies!</h3>
 
     <h4>Part 2.1: Image "Sharpening"</h4>
     <p>
         I implemented the unsharp mask filter by subtracting a blurred version of an image from the original to extract high-frequency components. 
-        Adding these components back to the original image had the effect of enhancing sharpness (although this is more of an illusion, since there is no new information/resolution added). 
-        Experiments on images like the Taj Mahal and Campanile demonstrated varying levels of sharpening and the effect of sharpening on previously blurred images.
+        Adding these components back to the original image with a multiplier had the effect of enhancing sharpness (although this is more of an illusion, since there is no new information/resolution added). 
+        I experimented with different levels of sharpening and also applied the technique to a blurred image to see if it could restore some detail. 
+        Too much sharpening led to fake-looking images and noise amplification, and re-sharpening a blurred image only partially restored detail.
     </p>
-    <div class="img-item"><img src="assets/taj.jpg"></div>
-    <div class="img-item"><img src="assets/campanile.jpg"></div>
-    <div class="img-item"><img src="assets/nyc.jpg"></div>
+    <div class="img-item">
+        <img src="assets/taj.jpg">
+        <p>Taj Mahal with 5x high-frequency amplification added</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/campanile.jpg">
+        <p>Campanile with 5x and 10x high-frequency amplification added</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/nyc.jpg">
+        <p>NYC blurred then resharpened with 10x high-frequency amplification added</p>
+    </div>
 
     <h4>Part 2.2: Hybrid Images</h4>
     <p>
         Using pairs of images, I created hybrid images by combining (averaging) the low-frequency part of one image with the high-frequency part of another, using the same subtraction method as in part 2.1. 
         I successfully produced hybrid images for Derek + Nutmeg, Beethoven + Van Gogh, and Smile + Frown. 
         For the Smile + Frown example, I also visualized the Fourier transforms at each step, showing how frequency components combined to produce the perceptual effect.
-        For each pair of images, I experimented with different cutoff frequencies to find the best balance between the two images; 
+        For each pair of images, I experimented with different cutoff frequencies (controlled by σ of Gaussian) to find the best balance between the two images; 
         for example, I noticed that the Derek image was dominating the cat image, so I had to increase the blurring effect on Derek to let more of Nutmeg's features show through.
     </p>
-    <div class="img-item"><img src="assets/nutmeg_derek.jpg"></div>
-    <div class="img-item"><img src="assets/beethoven_van_gogh.jpg"></div>
-    <div class="img-item"><img src="assets/smile_frown.jpg"></div>
-    <div class="img-item"><img src="assets/fft.jpg"></div>
+    <div class="img-item">
+        <img src="assets/nutmeg_derek.jpg">
+        <p>Nutmeg (σ = 5) + Derek (σ = 15)</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/beethoven_van_gogh.jpg">
+        <p>Beethoven (σ = 4) + Van Gogh Portraits (σ = 8)</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/smile_frown.jpg">
+        <p>Dean Norris Smile (σ = 1.5) + Frown (σ = 5)</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/fft.jpg">
+        Dean Norris Smile + Frown Fourier Transforms
+    </div>
 
     <h4>Parts 2.3 &amp; 2.4: Gaussian/Laplacian Stacks &amp; Multiresolution Blending (AKA the Oraple!)</h4>
     <p>
         I implemented Gaussian and Laplacian stacks to represent images at multiple levels of smoothness and detail. 
-        Gaussian stacks were created by incrementally blurring the image, while Laplacian stacks were formed by subtracting adjacent levels of the Gaussian stack to isolate frequency bands.
+        Gaussian stacks were created by incrementally blurring the image (doubling blur each time), while Laplacian stacks were formed by subtracting adjacent levels of the Gaussian stack to isolate frequency bands.
         Laplacian stacks were computed for each pair of images, a Gaussian stack was computed for the blending mask, and these were used to perform multiresolution blending by combining corresponding levels of the Laplacian stacks weighted by the Gaussian mask levels.
         This technique allowed me to seamlessly blend pairs of images, such as Apple + Orange, Night + Sunset, and Potato + Cat. 
-        I was also able to produce smooth transitions between images even with irregular masks (Potato + Cat).
+        The boundary of my mask was a straight line for the first two examples (vertical and horizontal, respectively), but I was also able to produce smooth transitions for the Potato + Cat example with a cat-shaped, irregular mask.
     </p>
-    <div class="img-item"><img src="assets/apple_stacks.jpg"></div>
-    <div class="img-item"><img src="assets/orange_stacks.jpg"></div>
-    <div class="img-item"><img src="assets/apple_orange.jpg"></div>
-    <div class="img-item"><img src="assets/apple_orange_fig.jpg"></div>
-    <div class="img-item"><img src="assets/night_sunset.jpg"></div>
-    <div class="img-item"><img src="assets/night_sunset_fig.jpg"></div>
-    <div class="img-item"><img src="assets/potato_cat.jpg"></div>
-    <div class="img-item"><img src="assets/potato_cat_fig.jpg"></div>
+    <div class="img-item">
+        <img src="assets/apple_stacks.jpg">
+        <p>Apple Gaussian and Laplacian Stacks</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/orange_stacks.jpg">
+        <p>Orange Gaussian and Laplacian Stacks</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/apple_orange.jpg">
+        <p>Apple + Orange</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/apple_orange_fig.jpg">
+        <p>Apple + Orange Blending Stages</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/night_sunset.jpg">
+        <p>Night + Sunset</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/night_sunset_fig.jpg">
+        <p>Night + Sunset Blending Stages</p>
+    </div>
+    <br><br>
+    <div class="img-item">
+        <img src="assets/potato_cat.jpg">
+        <p>Potato + Cat</p>
+    </div>
+    <br>
+    <div class="img-item">
+        <img src="assets/potato_cat_fig.jpg">
+        <p>Potato + Cat Blending Stages</p>
+    </div>
 </body>
 </html>
