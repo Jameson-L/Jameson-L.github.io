@@ -11,6 +11,9 @@
     <h3>Part A: Image Warping and Mosaicing</h3>
 
     <h4>Part A.1: Shoot the Pictures</h4>
+    <p>
+        I shot photos around campus with the same center of projection (the camera was only rotated, not translated). This enables me to make a panoramic image by stitching the photos together.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/doe_left.jpg">
@@ -57,6 +60,13 @@
     </div>
     
     <h4>Part A.2: Recover Homographies</h4>
+    <p>
+        The transformation as a result of rotating a camera can be expressed by a homography.
+        A homography consists of 8 degrees of freedom (unknowns), so a minimum number of 4 correspondences (2 coordinates each) are needed to solve for a homography using a system of linear equations.
+        However, due to noise, it is recommended to use more points. This results in an overdetermined system, which is then solvable via least-squares. 
+        I picked 8 correspondences for each image pair using <a href="https://cal-cs180.github.io/fa23/hw/proj3/tool.html" a> this tool </a>.
+    </p>
+    </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/doe_left_correspondences.jpg">
@@ -71,8 +81,31 @@
             <p><em>Doe Correspondences (right)</em></p>
         </div>
     </div>
+    <p>How a homography is computed:</p>
+    <div class="img-item">
+        <img src="assets/system.jpg">
+    </div>
 
     <h4>Part A.3: Warp the Images</h4>
+    <p>
+        By selecting corners of images of objects that should be rectangular and then computing a homography between those corners and a true rectangle (coordinates-wise), 
+        I can effectively rectify the image and transform it into a proper rectangle. 
+        When using inverse warping, there are two methods to interpolate pixels:
+    </p>
+    <ul>
+        <li>
+            <b>Nearest Neighbor Interpolation</b>
+            This method simply fetches the value of the nearest pixel.
+        </li>
+        <li>
+            <b>Bilinear Interpolation</b>
+            This method computes a weighted average of the 4 surrounding corner pixels.  
+        </li>
+    </ul>
+    <p>
+        While bilinear interpolation is slightly slower (not noticeable for small images), I found that my results were better with it.
+        For example, for the recycling bin, the text in the rectified image is still legibile only when I use bilinear interpolation. 
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/recycle.jpg">
@@ -104,37 +137,32 @@
     </div>
 
     <h4>Part A.4: Blend the Images into a Mosaic</h4>
+    <p>
+        With the computed homographies between images, I am then able to project transformed images onto a common plane then stitch them together to form a continuous panoramic image. 
+        For the following examples, I picked the middle image to be the reference plane, and warped the surrounding images toward it.
+        However, there is an issue of how to handle overlapping regions. 
+        With a simple alpha mask (averaging overlapping regions), seams are still relatively visible. 
+        By using a mask that drops off linearly from the center of an image (until 0 at the corners), I achieved much smoother results, and seams became virtually invisible. 
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/hearst_mosaic_unsmooth.jpg">
-            <p><em>Hearst Mosaic (unsmooth)</em></p>
+            <p><em>Hearst Mosaic (simple blending)</em></p>
         </div>
         <div class="img-item">
             <img src="assets/hearst_mosaic_smooth.jpg">
-            <p><em>Hearst Mosaic (smoothed)</em></p>
+            <p><em>Hearst Mosaic (smooth blending)</em></p>
         </div>
     </div>
     <br>
-    <div class="img-group">
-        <div class="img-item">
-            <img src="assets/doe_mosaic_smooth.jpg">
-            <p><em>Doe Mosaic</em></p>
-        </div>
+    <div class="img-item">
+        <img src="assets/doe_mosaic_smooth.jpg">
+        <p><em>Doe Mosaic</em></p>
     </div>
     <br>
-    <div class="img-group">
-        <div class="img-item">
-            <img src="assets/campanile_mosaic_smooth.jpg">
-            <p><em>Campanile Mosaic</em></p>
-        </div>
+    <div class="img-item">
+        <img src="assets/campanile_mosaic_smooth.jpg">
+        <p><em>Campanile Mosaic</em></p>
     </div>
-
-
-
-
-
-
-
-
 </body>
 </html>

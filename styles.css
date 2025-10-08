@@ -51,6 +51,18 @@ a:hover {
     color: var(--link-hover-text);
 }
 
+p a {
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: var(--link-color);
+}
+
+p a:hover {
+    background: none;
+    color: var(--link-hover-bg);
+}
+
 .img-group {
     display: flex;
     gap: 1rem;
