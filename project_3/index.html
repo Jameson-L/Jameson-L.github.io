@@ -64,7 +64,7 @@
         The transformation as a result of rotating a camera can be expressed by a homography.
         A homography consists of 8 degrees of freedom (unknowns), so a minimum number of 4 correspondences (2 coordinates each) are needed to solve for a homography using a system of linear equations.
         However, due to noise, it is recommended to use more points. This results in an overdetermined system, which is then solvable via least-squares. 
-        I picked 8 correspondences for each image pair using <a href="https://cal-cs180.github.io/fa23/hw/proj3/tool.html" a> this tool </a>.
+        I picked several correspondences for each image pair using <a href="https://cal-cs180.github.io/fa23/hw/proj3/tool.html" a> this tool </a>.
     </p>
     </div>
     <div class="img-group">
@@ -75,10 +75,6 @@
         <div class="img-item">
             <img src="assets/doe_middle_correspondences.jpg">
             <p><em>Doe Correspondences (middle)</em></p>
-        </div>
-        <div class="img-item">
-            <img src="assets/doe_right_correspondences.jpg">
-            <p><em>Doe Correspondences (right)</em></p>
         </div>
     </div>
     <p>How a homography is computed:</p>
@@ -104,7 +100,7 @@
     </ul>
     <p>
         While bilinear interpolation is slightly slower (not noticeable for small images), I found that my results were better with it.
-        For example, for the recycling bin, the text in the rectified image is still legibile only when I use bilinear interpolation. 
+        For example, for the recycling bin, the text in the rectified image is more legibile when I use bilinear interpolation. 
     </p>
     <div class="img-group">
         <div class="img-item">
@@ -142,7 +138,7 @@
         For the following examples, I picked the middle image to be the reference plane, and warped the surrounding images toward it.
         However, there is an issue of how to handle overlapping regions. 
         With a simple alpha mask (averaging overlapping regions), seams are still relatively visible. 
-        By using a mask that drops off linearly from the center of an image (until 0 at the corners), I achieved much smoother results, and seams became virtually invisible. 
+        By using a weighted-average alpha mask that drops off linearly from the center of an image (until 0 at the corners), I achieved much smoother results, and seams became virtually invisible. 
     </p>
     <div class="img-group">
         <div class="img-item">
@@ -155,14 +151,122 @@
         </div>
     </div>
     <br>
-    <div class="img-item">
-        <img src="assets/doe_mosaic_smooth.jpg">
-        <p><em>Doe Mosaic</em></p>
+    <div class="img-group">
+        <div class="img-item">
+                <img src="assets/doe_mosaic_smooth.jpg">
+                <p><em>Doe Mosaic</em></p>
+        </div>
     </div>
     <br>
     <div class="img-item">
         <img src="assets/campanile_mosaic_smooth.jpg">
         <p><em>Campanile Mosaic</em></p>
+    </div>
+
+    <h3>Part B: Feature Matching for Autostitching</h3>
+
+    <h4>Part B.1: Harris Corner Detection</h4>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/hearst_middle_harris.jpg">
+            <p><em>Hearst Harris Corners (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_anms.jpg">
+            <p><em>Hearst ANMS Corners (middle)</em></p>
+        </div>
+    </div>
+
+    <h4>Part B.2: Feature Descriptor Extraction</h4>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_0.jpg">
+            <p><em>Hearst Descriptor 0 (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_1.jpg">
+            <p><em>Hearst Descriptor 1 (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_2.jpg">
+            <p><em>Hearst Descriptor 2 (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_3.jpg">
+            <p><em>Hearst Descriptor 3 (middle)</em></p>
+        </div>
+    </div>
+
+    <h4>Part B.3: Feature Matching</h4>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/hearst_left_descriptor_2.jpg">
+            <p><em>Hearst Descriptor 2 (left)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_left_descriptor_4.jpg">
+            <p><em>Hearst Descriptor 4 (left)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_right_descriptor_1.jpg">
+            <p><em>Hearst Descriptor 1 (right)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_right_descriptor_3.jpg">
+            <p><em>Hearst Descriptor 3 (right)</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_2.jpg">
+            <p><em>Hearst Descriptor 2 (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_8.jpg">
+            <p><em>Hearst Descriptor 8 (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_5.jpg">
+            <p><em>Hearst Descriptor 5 (middle)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_middle_descriptor_0.jpg">
+            <p><em>Hearst Descriptor 0 (middle)</em></p>
+        </div>
+    </div>
+
+    <h4>Part B.4: RANSAC for Robust Homography</h4>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/hearst_mosaic_smooth.jpg">
+            <p><em>Hearst Mosaic (manual)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/hearst_mosaic_ransac.jpg">
+            <p><em>Hearst Mosaic (RANSAC)</em></p>
+        </div>
+    </div>
+    <br>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/doe_mosaic_smooth.jpg">
+            <p><em>Doe Mosaic (manual)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/doe_mosaic_ransac.jpg">
+            <p><em>Doe Mosaic (RANSAC)</em></p>
+        </div>
+    </div>
+    <br>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_mosaic_smooth.jpg">
+            <p><em>Campanile Mosaic (manual)</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_mosaic_ransac.jpg">
+            <p><em>Campanile Mosaic (RANSAC)</em></p>
+        </div>
     </div>
 </body>
 </html>
