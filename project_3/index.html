@@ -251,6 +251,10 @@
     <h3>Part B: Feature Matching for Autostitching</h3>
 
     <h4>Part B.1: Harris Corner Detection</h4>
+    <p>
+        The Harris corner detector finds points with strong gradient changes in both directions. These images show the detected Harris corners for each of the three Hearst images. 
+        After detecting all Harris corners, Adaptive Non-Maximal Suppression selects a subset of keypoints that are strong and spaced apart. This reduces clustering in highly textured regions and ensures an even distribution of features across the image.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/hearst_middle_harris.jpg">
@@ -263,6 +267,9 @@
     </div>
 
     <h4>Part B.2: Feature Descriptor Extraction</h4>
+    <p>
+        For each selected keypoint, we extract a normalized local patch and resize it to an 8×8 descriptor. Each descriptor captures local appearance around a corner.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/hearst_middle_descriptor_0.jpg">
@@ -283,7 +290,10 @@
     </div>
 
     <h4>Part B.3: Feature Matching</h4>
-
+    <p>
+        The extracted feature descriptors are matched in a brute-force manner by comparing the Euclidean distance between descriptors. For each descriptor in the left and right images, we find the closest and second-closest matches in the middle image. A match is accepted if the ratio of distances (closest to second-closest) is below a threshold, which helps filter out ambiguous matches.
+        Additional filtering is done to ensure that matches are mutual (if A matches to B, then B should also match to A).
+    </p>
     <p>
         These features:
     </p>
@@ -354,6 +364,10 @@
     </div>
 
     <h4>Part B.4: RANSAC for Robust Homography</h4>
+    <p>
+        Since some matches might be incorrect, RANSAC is used to robustly compute a homography. The algorithm repeatedly samples correspondences randomly to find the model with the most inliers (points that agree with the chosen homography) with the best homography are kept and outliers are discarded. The inlier set is then used to compute the final homography for stitching.
+        Overall, my results were much better with RANSAC, as some of the mosaics made with manual correspondences had some fuzzy misalignments.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/hearst_mosaic_smooth.jpg">
