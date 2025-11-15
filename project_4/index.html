@@ -9,6 +9,14 @@
     <h2>Jameson Liu</h2>
 
     <h3>Part 0: Calibrating Your Camera and Capturing a 3D Scan</h3>
+    <h4>My Object</h4>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_nerf/IMG_7335.jpg">
+        </div>
+    </div>
+
+    <h4>Camera Poses/Frustums (Viser)</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/octopus_nerf/viser1.jpg">
@@ -19,6 +27,8 @@
     </div>
 
     <h3>Part 1: Fit a Neural Field to a 2D Image</h3>
+
+    <h4>Hyperparameter Tuning on Fox Image</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/fox_2_128.jpg">
@@ -40,6 +50,20 @@
         </div>
     </div>
 
+    <h4>Chosen Model Architecture/Parameters</h4>
+    <p>
+        Number of (Linear) Layers: 4
+        <br>
+        Width: 256
+        <br>
+        Learning Rate: 1e-2
+        <br>
+        Batch Size: 10000
+        <br>
+        L: 10
+    </p>
+
+    <h4>Intermediate Renders of Fox Image</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/fox_10_256/iteration_0.jpg">
@@ -62,12 +86,15 @@
             <p><em>Iteration 2000</em></p>
         </div>
     </div>
+
+    <h4>Training Curves</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/fox_10_256/training_curves.jpg">
         </div>
     </div>
 
+    <h4>Intermediate Renders of My Own Image</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/octopus_10_256/iteration_0.jpg">
@@ -90,6 +117,8 @@
             <p><em>Iteration 2000</em></p>
         </div>
     </div>
+
+    <h4>Training Curves</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/octopus_10_256/training_curves.jpg">
@@ -97,11 +126,14 @@
     </div>
 
     <h3>Part 2: Fit a Neural Radiance Field from Multi-view Images</h3>
+    <h4>Rays Sampled from Training Set (Viser)</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/lego_nerf/viser.jpg">
         </div>
     </div>
+
+    <h4>Intermediate Renders (Validation)</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/lego_nerf/iteration_0.jpg">
@@ -140,6 +172,8 @@
     </div>
 
     <h3>Part 2.6: Training with Your Own Data</h3>
+
+    <h4>Rendered Images During Training (Validation)</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/octopus_nerf/iteration_0.jpg">
@@ -166,11 +200,15 @@
             <p><em>Iteration 10000</em></p>
         </div>
     </div>
+
+    <h4>Training Curves</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/octopus_nerf/training_curves.jpg">
         </div>
     </div>
+
+    <h4>Rendered Gif of Novel Views</h4>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/octopus_nerf/views.gif">
