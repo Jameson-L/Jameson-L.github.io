@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 4</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <h1>Project 4: Neural Radiance Field!</h1>
+    <h2>Jameson Liu</h2>
+
+    <h3>Part 0: Calibrating Your Camera and Capturing a 3D Scan</h3>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_nerf/viser1.jpg">
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_nerf/viser2.jpg">
+        </div>
+    </div>
+
+    <h3>Part 1: Fit a Neural Field to a 2D Image</h3>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/fox_2_128.jpg">
+            <p><em>L=2, Width=128</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/fox_2_256.jpg">
+            <p><em>L=2, Width=256</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/fox_10_128.jpg">
+            <p><em>L=10, Width=128</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/fox_10_256/iteration_2000.jpg">
+            <p><em>L=10, Width=256</em></p>
+        </div>
+    </div>
+
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/fox_10_256/iteration_0.jpg">
+            <p><em>Iteration 0</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/fox_10_256/iteration_500.jpg">
+            <p><em>Iteration 500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/fox_10_256/iteration_1000.jpg">
+            <p><em>Iteration 1000</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/fox_10_256/iteration_1500.jpg">
+            <p><em>Iteration 1500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/fox_10_256/iteration_2000.jpg">
+            <p><em>Iteration 2000</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/fox_10_256/training_curves.jpg">
+        </div>
+    </div>
+
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_10_256/iteration_0.jpg">
+            <p><em>Iteration 0</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_10_256/iteration_500.jpg">
+            <p><em>Iteration 500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_10_256/iteration_1000.jpg">
+            <p><em>Iteration 1000</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_10_256/iteration_1500.jpg">
+            <p><em>Iteration 1500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_10_256/iteration_2000.jpg">
+            <p><em>Iteration 2000</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_10_256/training_curves.jpg">
+        </div>
+    </div>
+
+    <h3>Part 2: Fit a Neural Radiance Field from Multi-view Images</h3>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/lego_nerf/viser.jpg">
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/lego_nerf/iteration_0.jpg">
+            <p><em>Iteration 0</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lego_nerf/iteration_200.jpg">
+            <p><em>Iteration 200</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lego_nerf/iteration_400.jpg">
+            <p><em>Iteration 400</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lego_nerf/iteration_600.jpg">
+            <p><em>Iteration 600</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lego_nerf/iteration_800.jpg">
+            <p><em>Iteration 800</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lego_nerf/iteration_1000.jpg">
+            <p><em>Iteration 1000</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/lego_nerf/training_curves.jpg">
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/lego_nerf/views.gif">
+        </div>
+    </div>
+
+    <h3>Part 2.6: Training with Your Own Data</h3>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_nerf/iteration_0.jpg">
+            <p><em>Iteration 0</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_nerf/iteration_2000.jpg">
+            <p><em>Iteration 2000</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_nerf/iteration_4000.jpg">
+            <p><em>Iteration 4000</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_nerf/iteration_6000.jpg">
+            <p><em>Iteration 6000</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_nerf/iteration_8000.jpg">
+            <p><em>Iteration 8000</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/octopus_nerf/iteration_10000.jpg">
+            <p><em>Iteration 10000</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_nerf/training_curves.jpg">
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/octopus_nerf/views.gif">
+        </div>
+    </div>
+</body>
+</html>
