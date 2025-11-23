@@ -35,38 +35,53 @@
         <li>a piano</li>
         <li>a lithograph of a yin yang symbol</li>
     </ul>
+    <p>I generated 2 images for a few prompts with 20 and 100 steps, respectively. 
+        All images closely followed their prompts, except for the Yin Yang symbol at 20 steps.
+        I didn't notice any significant quality differences between the 20 and 100 steps images for the most part.
+        For the piano specifically, the 20 steps image was actually slightly better in my opinion.
+        One more interesting thing I noticed was that the skyline images both included accurate reflections. 
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/city_20.jpg">
-            <p><em>a city skyline</em></p>
+            <p><em>a city skyline (20 steps)</em></p>
         </div>
         <div class="img-item">
             <img src="assets/piano_20.jpg">
-            <p><em>a piano</em></p>
+            <p><em>a piano (20 steps)</em></p>
         </div>
         <div class="img-item">
             <img src="assets/yinyang_20.jpg">
-            <p><em>a lithograph of a yin yang symbol</em></p>
+            <p><em>a lithograph of a yin yang symbol (20 steps)</em></p>
         </div>
     </div>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/city_100.jpg">
-            <p><em>a city skyline</em></p>
+            <p><em>a city skyline (100 steps)</em></p>
         </div>
         <div class="img-item">
             <img src="assets/piano_100.jpg">
-            <p><em>a piano</em></p>
+            <p><em>a piano (100 steps)</em></p>
         </div>
         <div class="img-item">
             <img src="assets/yinyang_100.jpg">
-            <p><em>a lithograph of a yin yang symbol</em></p>
+            <p><em>a lithograph of a yin yang symbol (100 steps)</em></p>
         </div>
     </div>
 
     <h4>Part 1: Sampling Loops</h4>
 
     <h5>Part 1.1: Implementing the Forward Process</h5>
+    <p>
+        I implemented the process to add noise to an image at a certain timestep.
+    </p>
+    <pre><code># key lines:
+...
+alpha_bar_t = alphas_cumprod[t]
+epsilon = torch.randn_like(im)
+im_noisy = torch.sqrt(alpha_bar_t) * im + torch.sqrt(1 - alpha_bar_t) * epsilon
+...</code></pre>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile.jpg">
@@ -87,6 +102,9 @@
     </div>
 
     <h5>Part 1.2: Classical Denoising</h5>
+    <p>
+        I implemented the process to denoise an image at a certain timestep using Gaussian blur filtering.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile_1_1_250.jpg">
@@ -117,6 +135,23 @@
     </div>
 
     <h5>Part 1.3: One-Step Denoising</h5>
+    <p></p>
+        I implemented the process to denoise an image at a certain timestep using a one-step method.
+    </p>
+    <pre><code># key lines:
+...
+im_noisy = im_noisy.cpu()
+prompt_embeds = prompt_embeds.half().cuda()
+noise_est = stage_1.unet(
+    im_noisy.half().cuda(),
+    t,
+    encoder_hidden_states=prompt_embeds,
+    return_dict=False
+)[0]
+noise_est = noise_est[:, :3].cpu()
+im_denoised = (im_noisy - torch.sqrt(1 - alpha_cumprod) * noise_est) / torch.sqrt(alpha_cumprod)
+im_denoised = im_denoised.detach().numpy()
+...</code></pre>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile_1_1_250.jpg">
@@ -147,6 +182,25 @@
     </div>
 
     <h5>Part 1.4: Iterative Denoising</h5>
+    <p>
+        I implemented the process to denoise an image iteratively.
+    </p>
+    <pre><code># key lines:
+...
+strided_timesteps = list(range(990, -1, -30))
+...
+alpha_cumprod = alphas_cumprod[t]
+alpha_cumprod_prev = alphas_cumprod[prev_t]
+alpha = alpha_cumprod / alpha_cumprod_prev
+beta = 1 - alpha
+...
+image = image.half().cuda()
+prompt_embeds = prompt_embeds.half().cuda()
+...
+x0 = (image - torch.sqrt(1 - alpha_cumprod) * noise_est) / torch.sqrt(alpha_cumprod)
+pred_prev_image = (torch.sqrt(alpha_cumprod_prev) * beta) / (1 - alpha_cumprod) * x0 + (torch.sqrt(alpha) * (1 - alpha_cumprod_prev)) / (1 - alpha_cumprod) * image
+pred_prev_image = add_variance(predicted_variance.cpu(), torch.tensor([t]), pred_prev_image.cpu())
+...</code></pre>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile_1_4_90.jpg">
@@ -189,6 +243,9 @@
     </div>
 
     <h5>Part 1.5: Diffusion Model Sampling</h5>
+    <p>
+        I sampled 5 images from pure noise using the diffusion model.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/random_1_5_0.jpg">
@@ -213,6 +270,16 @@
     </div>
 
     <h5>Part 1.6: Classifier-Free Guidance (CFG)</h5>
+    <p>
+        I sampled 5 images from pure noise using the diffusion model with CFG.
+    </p>
+    <pre><code># key lines:
+...
+cfg_noise_est = uncond_noise_est + scale * (noise_est - uncond_noise_est)
+x0 = (image - torch.sqrt(1 - alpha_cumprod) * cfg_noise_est) / torch.sqrt(alpha_cumprod)
+pred_prev_image = (torch.sqrt(alpha_cumprod_prev) * beta) / (1 - alpha_cumprod) * x0 + (torch.sqrt(alpha) * (1 - alpha_cumprod_prev)) / (1 - alpha_cumprod) * image
+pred_prev_image = add_variance(predicted_variance.cpu(), torch.tensor([t]), pred_prev_image.cpu())
+...</code></pre>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/random_1_6_0.jpg">
@@ -237,6 +304,9 @@
     </div>
 
     <h5>Part 1.7: Image-to-Image Translation</h5>
+    <p>
+        I edited multiple images at i_start=1, 3, 5, 7, 10, and 20 using the diffusion model with CFG.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile_1_7_1.jpg">
@@ -329,6 +399,9 @@
     </div>
 
     <h6>Part 1.7.1: Editing Hand-Drawn and Web Images</h6>
+    <p>
+        I edited multiple hand-drawn and web images at i_start=1, 3, 5, 7, 10, and 20 using the diffusion model with CFG.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/suzume_1_7_1_1.jpg">
@@ -421,6 +494,13 @@
     </div>
 
     <h6>Part 1.7.2: Inpainting</h6>
+    <p>
+        I inpainted masked sections of multiple images using the diffusion model with CFG.
+    </p>
+    <pre><code># key lines:
+...
+image = mask * image + (1 - mask) * forward(original_image, t).half().cuda()
+...</code></pre>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile.jpg">
@@ -477,6 +557,9 @@
     </div>
 
     <h6>Part 1.7.3: Text-Conditional Image-to-Image Translation</h6>
+    <p>
+        I edited multiple images at i_start=1, 3, 5, 7, 10, and 20 using the diffusion model with CFG and a text prompt.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/campanile_1_7_3_1.jpg">
@@ -569,6 +652,18 @@
     </div>
 
     <h6>Part 1.8: Visual Anagrams</h6>
+    <p>
+        I created visual anagrams by denoising according to the combination of two text prompts, one applied normally and the other applied upside down.
+    </p>
+    <pre><code># key lines:
+...
+cfg_noise_est_1 = uncond_noise_est_1 + scale * (noise_est_1 - uncond_noise_est_1)
+...
+cfg_noise_est_2 = uncond_noise_est_2 + scale * (noise_est_2 - uncond_noise_est_2)
+cfg_noise_est_2 = torch.flip(cfg_noise_est_2, [2])
+...
+cfg_noise_est_combined = (cfg_noise_est_1 + cfg_noise_est_2) / 2
+...</code></pre>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/man_campfire.jpg">
@@ -590,14 +685,27 @@
         </div>
     </div>
 
-    <h6>Part 1.8: Hybrid Images</h6>
-    <div class="img-group" style="max-width: 1000px">
+    <h6>Part 1.9: Hybrid Images</h6>
+    <p>
+        I created hybrid images by denoising according to the combination of two text prompts, one applied with a low pass filter and the other applied with a high pass filter.
+    </p>
+    <pre><code># key lines:
+...
+cfg_noise_est_1 = uncond_noise_est_1 + scale * (noise_est_1 - uncond_noise_est_1)
+cfg_noise_est_1 = TF.gaussian_blur(cfg_noise_est_1, kernel_size=33, sigma=2)
+...
+cfg_noise_est_2 = uncond_noise_est_2 + scale * (noise_est_2 - uncond_noise_est_2)
+cfg_noise_est_2 = cfg_noise_est_2 - TF.gaussian_blur(cfg_noise_est_2, kernel_size=33, sigma=2)
+...
+cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
+...</code></pre>
+    <div class="img-group" style="max-width: 600px">
         <div class="img-item">
             <img src="assets/waterfall_skull.jpg">
             <p><em>Waterfall/Skull</em></p>
         </div>
     </div>
-    <div class="img-group" style="max-width: 1000px">
+    <div class="img-group" style="max-width: 600px">
         <div class="img-item">
             <img src="assets/yinyang_city.jpg">
             <p><em>Yin Yang/City</em></p>
