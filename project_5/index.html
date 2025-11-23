@@ -11,22 +11,323 @@
     <h3>Part A: The Power of Diffusion Models!</h3>
 
     <h4>Part 0: Setup</h4>
+    <p>
+        Seed: 3037434322
+        <br>
+        Text prompts:
+    </p>
+    <ul>
+        <li>a high quality picture</li>
+        <li>an oil painting of a snowy mountain village</li>
+        <li>a photo of the amalfi coast</li>
+        <li>a photo of a man</li>
+        <li>a photo of a hipster barista</li>
+        <li>a photo of a dog</li>
+        <li>an oil painting of people around a campfire</li>
+        <li>an oil painting of an old man</li>
+        <li>a lithograph of waterfalls</li>
+        <li>a lithograph of a skull</li>
+        <li>a man wearing a hat</li>
+        <li>a high quality photo</li>
+        <li>a rocket ship</li>
+        <li>a pencil</li>
+        <li>a city skyline</li>
+        <li>a piano</li>
+        <li>an oil painting of a forest</li>
+        <li>an oil painting of a lion</li>
+    </ul>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/city_20.jpg">
+            <p><em>a city skyline</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/forest_20.jpg">
+            <p><em>an oil painting of a forest</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lion_20.jpg">
+            <p><em>an oil painting of a lion</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/city_100.jpg">
+            <p><em>a city skyline</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/forest_100.jpg">
+            <p><em>an oil painting of a forest</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/lion_100.jpg">
+            <p><em>an oil painting of a lion</em></p>
+        </div>
+    </div>
 
     <h4>Part 1: Sampling Loops</h4>
 
     <h5>Part 1.1: Implementing the Forward Process</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile.jpg">
+            <p><em>Original</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_250.jpg">
+            <p><em>Noisy at t=250</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_500.jpg">
+            <p><em>Noisy at t=500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_750.jpg">
+            <p><em>Noisy at t=750</em></p>
+        </div>
+    </div>
 
     <h5>Part 1.2: Classical Denoising</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_1_1_250.jpg">
+            <p><em>Noisy at t=250</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_500.jpg">
+            <p><em>Noisy at t=500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_750.jpg">
+            <p><em>Noisy at t=750</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_1_2_250.jpg">
+            <p><em>Gaussian Denoised at t=250</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_2_500.jpg">
+            <p><em>Gaussian Denoised at t=500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_2_750.jpg">
+            <p><em>Gaussian Denoised at t=750</em></p>
+        </div>
+    </div>
 
     <h5>Part 1.3: One-Step Denoising</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_1_1_250.jpg">
+            <p><em>Noisy at t=250</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_500.jpg">
+            <p><em>Noisy at t=500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_1_750.jpg">
+            <p><em>Noisy at t=750</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_1_3_250.jpg">
+            <p><em>One-Step Denoised at t=250</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_3_500.jpg">
+            <p><em>One-Step Denoised at t=500</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_3_750.jpg">
+            <p><em>One-Step Denoised at t=750</em></p>
+        </div>
+    </div>
 
     <h5>Part 1.4: Iterative Denoising</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_1_4_90.jpg">
+            <p><em>Noisy at t=90</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_4_240.jpg">
+            <p><em>Noisy at t=240</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_4_390.jpg">
+            <p><em>Noisy at t=390</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_4_540.jpg">
+            <p><em>Noisy at t=540</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_4_690.jpg">
+            <p><em>Noisy at t=690</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile.jpg">
+            <p><em>Original</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_4.jpg">
+            <p><em>Iteratively Denoised</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_3_750.jpg">
+            <p><em>One-Step Denoised</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_2_750.jpg">
+            <p><em>Gaussian Denoised</em></p>
+        </div>
+    </div>
 
     <h5>Part 1.5: Diffusion Model Sampling</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/random_1_5_0.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_5_1.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_5_2.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_5_3.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_5_4.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+    </div>
 
     <h5>Part 1.6: Classifier-Free Guidance (CFG)</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/random_1_6_0.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_6_1.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_6_2.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_6_3.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/random_1_6_4.jpg">
+            <p><em>Random Image</em></p>
+        </div>
+    </div>
 
     <h5>Part 1.7: Image-to-Image Translation</h5>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/campanile_1_7_1.jpg">
+            <p><em>Edit at i_start=1</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_7_3.jpg">
+            <p><em>Edit at i_start=3</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_7_5.jpg">
+            <p><em>Edit at i_start=5</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_7_7.jpg">
+            <p><em>Edit at i_start=7</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_7_10.jpg">
+            <p><em>Edit at i_start=10</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile_1_7_20.jpg">
+            <p><em>Edit at i_start=20</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/campanile.jpg">
+            <p><em>Original</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/owl_1_7_1.jpg">
+            <p><em>Edit at i_start=1</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/owl_1_7_3.jpg">
+            <p><em>Edit at i_start=3</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/owl_1_7_5.jpg">
+            <p><em>Edit at i_start=5</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/owl_1_7_7.jpg">
+            <p><em>Edit at i_start=7</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/owl_1_7_10.jpg">
+            <p><em>Edit at i_start=10</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/owl_1_7_20.jpg">
+            <p><em>Edit at i_start=20</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/owl.jpg">
+            <p><em>Original</em></p>
+        </div>
+    </div>
+    <div class="img-group">
+        <div class="img-item">
+            <img src="assets/earthrise_1_7_1.jpg">
+            <p><em>Edit at i_start=1</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/earthrise_1_7_3.jpg">
+            <p><em>Edit at i_start=3</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/earthrise_1_7_5.jpg">
+            <p><em>Edit at i_start=5</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/earthrise_1_7_7.jpg">
+            <p><em>Edit at i_start=7</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/earthrise_1_7_10.jpg">
+            <p><em>Edit at i_start=10</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/earthrise_1_7_20.jpg">
+            <p><em>Edit at i_start=20</em></p>
+        </div>
+        <div class="img-item">
+            <img src="assets/earthrise.jpg">
+            <p><em>Original</em></p>
+        </div>
+    </div>
 
     <h6>Part 1.7.1: Editing Hand-Drawn and Web Images</h6>
 
