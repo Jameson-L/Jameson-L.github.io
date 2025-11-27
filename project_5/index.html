@@ -651,7 +651,7 @@ image = mask * image + (1 - mask) * forward(original_image, t).half().cuda()
         </div>
     </div>
 
-    <h6>Part 1.8: Visual Anagrams</h6>
+    <h5>Part 1.8: Visual Anagrams</h5>
     <p>
         I created visual anagrams by denoising according to the combination of two text prompts, one applied normally and the other applied upside down.
     </p>
@@ -707,9 +707,37 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     </div>
     <div class="img-group" style="max-width: 600px">
         <div class="img-item">
-            <img src="assets/yinyang_city.jpg">
+            <img src="assets/city_yinyang.jpg">
             <p><em>Yin Yang/City</em></p>
         </div>
     </div>
+
+    <h3>Part B: Flow Matching from Scratch!</h3>
+
+    <h4>Part 1: Training a Single-Step Denoising UNet</h4>
+
+    <h5>Part 1.1: Implementing the UNet</h5>
+
+    <h5>Part 1.2: Using the UNet to Train a Denoiser</h5>
+
+    <h6>Part 1.2.1: Training</h6>
+
+    <h6>Part 1.2.2: Out-of-Distribution Testing</h6>
+
+    <h6>Part 1.2.3: Denoising Pure Noise</h6>
+
+    <h4>Part 2: Flow Matching</h4>
+
+    <h5>Part 2.1: Implementing the Time-Conditioned UNet</h5>
+
+    <h5>Part 2.2: Training the UNet</h5>
+
+    <h5>Part 2.3: Sampling from the UNet</h5>
+
+    <h5>Part 2.4: Adding Class-Conditioning to UNet</h5>
+
+    <h5>Part 2.5: Training the UNet</h5>
+
+    <h5>Part 2.6: Sampling from the UNet</h5>
 </body>
 </html>
