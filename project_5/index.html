@@ -765,8 +765,14 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     <h4>Part 1: Training a Single-Step Denoising UNet</h4>
 
     <h5>Part 1.1: Implementing the UNet</h5>
+    <p>
+        I implemented a UNet architecture with downsampling and upsampling blocks connected by skip connections.
+    </p>
 
     <h5>Part 1.2: Using the UNet to Train a Denoiser</h5>
+    <p>
+        I visualized the noising process by adding Gaussian noise to MNIST digits with varying noise levels.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_1_2.jpg">
@@ -774,23 +780,35 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     </div>
 
     <h6>Part 1.2.1: Training</h6>
+    <p>
+        I trained a denoiser to remove noise from MNIST digits that were corrupted with σ=0.5.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_1_2_1_loss.jpg">
         </div>
     </div>
-    <div class="img-group">
+    <p>
+        Epoch 1:
+    </p>
+    <div class="img-group" style="max-width: 600px">
         <div class="img-item">
             <img src="assets/mnist_1_2_1_1.jpg">
         </div>
     </div>
-    <div class="img-group">
+    <p>
+        Epoch 5:
+    </p>
+    <div class="img-group" style="max-width: 600px">
         <div class="img-item">
             <img src="assets/mnist_1_2_1_5.jpg">
         </div>
     </div>
 
     <h6>Part 1.2.2: Out-of-Distribution Testing</h6>
+    <p>
+        I tested the denoiser trained on σ=0.5 on images with different noise levels.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_1_2_2.jpg">
@@ -798,27 +816,45 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     </div>
 
     <h6>Part 1.2.3: Denoising Pure Noise</h6>
+    <p>
+        I trained a denoiser to generate MNIST digits from pure random Gaussian noise.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_1_2_3_loss.jpg">
         </div>
     </div>
-    <div class="img-group">
+    <p>
+        Epoch 1:
+    </p>
+    <div class="img-group" style="max-width: 600px">
         <div class="img-item">
             <img src="assets/mnist_1_2_3_1.jpg">
         </div>
     </div>
-    <div class="img-group">
+    <p>
+        Epoch 5:
+    </p>
+    <div class="img-group" style="max-width: 600px">
         <div class="img-item">
             <img src="assets/mnist_1_2_3_5.jpg">
         </div>
     </div>
+    <p>
+        Interestingly, all of the generated outputs look extremely similar. This likely occurs because, when the denoiser is trained only to map pure noise directly to clean digits, it learns to always produce the "average" digit. The absence of structured noise in the input means the model doesn't receive any useful signal for generating different digits, leading it to output a blurry shape that vaguely resembles a digit regardless of the input noise.
+    </p>
 
     <h4>Part 2: Flow Matching</h4>
 
     <h5>Part 2.1: Implementing the Time-Conditioned UNet</h5>
+    <p>
+        I implemented a UNet that conditions on timestep t to predict the flow at different stages of the denoising process.
+    </p>
 
     <h5>Part 2.2: Training the UNet</h5>
+    <p>
+        I trained the time-conditioned UNet to predict flows for flow matching on MNIST digits.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_2_loss.jpg">
@@ -826,16 +862,28 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     </div>
 
     <h5>Part 2.3: Sampling from the UNet</h5>
+    <p>
+        I sampled MNIST digits by iteratively denoising from pure noise using the time-conditioned UNet.
+    </p>
+    <p>
+        Epoch 1:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_3_1.jpg">
         </div>
     </div>
+    <p>
+        Epoch 5:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_3_5.jpg">
         </div>
     </div>
+    <p>
+        Epoch 10:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_3_10.jpg">
@@ -843,8 +891,14 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     </div>
 
     <h5>Part 2.4: Adding Class-Conditioning to UNet</h5>
+    <p>
+        I added class conditioning to the UNet to enable controlled generation of specific digits.
+    </p>
 
     <h5>Part 2.5: Training the UNet</h5>
+    <p>
+        I trained the class-conditioned UNet with periodic unconditional generation.
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_5_loss.jpg">
@@ -852,45 +906,70 @@ cfg_noise_est_combined = cfg_noise_est_1 + cfg_noise_est_2
     </div>
 
     <h5>Part 2.6: Sampling from the UNet</h5>
-    <div class="img-group">
-        <div class="img-item">
-            <img src="assets/mnist_2_6_loss.jpg">
-        </div>
-    </div>
+    <p>
+        I sampled digits with class conditioning using classifier-free guidance and also trained without the learning rate scheduler.
+    </p>
+    <p>
+        With Learning Rate Scheduler:
+    </p>
+    <p>
+        Epoch 1:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_1.jpg">
         </div>
     </div>
+    <p>
+        Epoch 5:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_5.jpg">
         </div>
     </div>
+    <p>
+        Epoch 10:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_10.jpg">
         </div>
     </div>
+    <p>
+        Without Learning Rate Scheduler:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_unscheduled_loss.jpg">
         </div>
     </div>
+    <p>
+        Epoch 1:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_unscheduled_1.jpg">
         </div>
     </div>
+    <p>
+        Epoch 5:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_unscheduled_5.jpg">
         </div>
     </div>
+    <p>
+        Epoch 10:
+    </p>
     <div class="img-group">
         <div class="img-item">
             <img src="assets/mnist_2_6_unscheduled_10.jpg">
         </div>
     </div>
+    <p>
+        To compensate for removing the exponential learning rate scheduler, I adjusted the initial learning rate. I found that using a slightly lower initial learning rate helped maintain similar performance. Although the loss curve was a little bumpier, it achieved comparable results to the scheduled version.
+    </p>
 </body>
 </html>
